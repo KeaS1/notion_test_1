@@ -66,12 +66,14 @@ services:
     container_name: faq-assistant-app
     ports:
       - "8000:8000"
+    # Переменные из корневого .env (скопируйте из .env.example). Файл должен существовать.
+    env_file:
+      - .env
     environment:
+      # Перекрывают значения из .env для работы внутри docker-сети и пути к KB в образе
       MILVUS_HOST: milvus
       MILVUS_PORT: "19530"
       KB_JSON_PATH: /app/mock_kb.json
-      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
-      REBUILD_MILVUS_INDEX: "false"
     depends_on:
       milvus:
         condition: service_healthy
